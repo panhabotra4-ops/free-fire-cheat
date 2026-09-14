@@ -1,0 +1,19 @@
+name: Build iOS Dylib
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Compile Dylib
+        run: |
+          clang -arch arm64 -dynamiclib -install_name @executable_path/cheat.dylib main.cpp -o cheat.dylib
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cheat-dylib
+          path: cheat.dylib
